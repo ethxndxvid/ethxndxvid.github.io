@@ -40,6 +40,7 @@ section{max-width:1080px;margin:auto;padding:100px 24px}.hero{min-height:100svh;
   <div class="letter">
     <p>My love,</p>
     <p>There are probably a thousand ways I could tell you that I love you, and somehow none of them ever feel like enough. So instead of trying to find the perfect words, I wanted to make you something you could come back to whenever you miss me.</p>
+	<p>As I write this, we've been talking for <span id="relationship-time">loading...</span>. And somehow, in that time, you've become one of the most important people in my life.</p>
     <p>Being far away from you isn't always easy. There are moments when I wish I could simply turn up at your door, steal a hug, and sit next to you without a screen between us. But even with all those kilometres between us, you've become such a beautiful part of my everyday life.</p>
     <p>I love the little things. Your messages. Your jokes. The way you annoy me just because you can. The moments where we're doing absolutely nothing and somehow I still feel lucky that it's you on the other side of the phone.</p>
     <p>And if there's one thing I want you to know, it's this: distance doesn't make me less certain about you. If anything, it makes me more certain that you're someone I want beside me when the distance is finally gone.</p>
@@ -100,8 +101,46 @@ section{max-width:1080px;margin:auto;padding:100px 24px}.hero{min-height:100svh;
 <footer class="footer reveal"><div class="big">Made with love, not AI. ♡</div><p>© 2026 • just us</p></footer>
 
 <script>
-const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+const observer=new IntersectionObserver(
+  entries=>entries.forEach(e=>{
+    if(e.isIntersecting)e.target.classList.add('visible')
+  }),
+  {threshold:.12}
+);
+
 document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+
+const startTime = new Date('2026-08-29T15:45:00+02:00');
+
+function updateRelationshipTime() {
+  const now = new Date();
+  let elapsed = Math.floor((now - startTime) / 1000);
+
+  const days = Math.floor(elapsed / 86400);
+  elapsed %= 86400;
+
+  const hours = Math.floor(elapsed / 3600);
+  elapsed %= 3600;
+
+  const minutes = Math.floor(elapsed / 60);
+  const seconds = elapsed % 60;
+
+  const text =
+    `${days} days, ` +
+    `${hours} hours, ` +
+    `${minutes} minutes, ` +
+    `${seconds} seconds`;
+
+  const element = document.getElementById('relationship-time');
+
+  if (element) {
+    element.textContent = text;
+  }
+}
+
+updateRelationshipTime();
+setInterval(updateRelationshipTime, 1000);
 </script>
 </body>
 </html>
