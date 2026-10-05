@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ♡</title>
+<meta name="description" content="A little corner of the internet made with love.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=DM+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap');
+
+:root{--ink:#292321;--paper:#f8f1e6;--paper2:#fffaf2;--rose:#b96b73;--rose2:#d9979d;--muted:#796e67;--line:#d9cbbb;--dark:#171515}
+*{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}body{background:#e8ddd0;color:var(--ink);font-family:Inter,system-ui,sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.16'/%3E%3C/svg%3E");z-index:20}
+section{max-width:1080px;margin:auto;padding:100px 24px}.hero{min-height:100svh;display:grid;place-items:center;padding:35px 24px;position:relative}.hero-card{max-width:900px;width:100%;background:var(--paper);padding:clamp(38px,7vw,78px);box-shadow:0 25px 70px #594c4025;transform:rotate(-.5deg);position:relative}.tape{position:absolute;width:125px;height:34px;background:#d6bca080;top:-15px;left:50%;transform:translateX(-50%) rotate(-2deg)}.eyebrow{font:500 13px 'DM Mono',monospace;letter-spacing:2px;text-transform:uppercase;color:var(--rose);margin-bottom:20px}.hero h1{font:600 clamp(64px,12vw,130px)/.82 Caveat,cursive;letter-spacing:-2px;margin-bottom:28px}.hero p{font:clamp(17px,2vw,22px)/1.7 Caveat,cursive;max-width:610px;color:#574d47}.open{display:inline-flex;margin-top:36px;text-decoration:none;color:white;background:var(--ink);padding:14px 22px;border-radius:3px;font:500 13px 'DM Mono',monospace;transition:.25s}.open:hover{transform:translateY(-3px);background:var(--rose)}.tiny-code{position:absolute;right:7%;bottom:10%;font:11px/1.7 'DM Mono',monospace;color:#aa9b8e;max-width:220px}.tiny-code span{color:var(--rose)}
+.paper{background:var(--paper2);box-shadow:0 15px 50px #594c4020}.section-label{font:500 12px 'DM Mono',monospace;color:var(--rose);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}.section-title{font:600 clamp(43px,6vw,72px)/.9 Caveat,cursive;margin-bottom:30px}.letter{max-width:790px;margin:auto;padding:clamp(32px,6vw,70px);position:relative;background:#fffdf7;box-shadow:0 12px 30px #594c4015}.letter:after{content:"♡";position:absolute;right:32px;top:24px;color:var(--rose2);font:42px Caveat}.letter p{font:22px/1.8 Caveat,cursive;margin-bottom:22px}.signature{font:30px Caveat;color:var(--rose);margin-top:35px}
+.memories{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.memory{background:#fffaf2;padding:14px 14px 25px;box-shadow:0 12px 30px #594c4018;transition:.3s}.memory:nth-child(2){transform:rotate(1.5deg);margin-top:22px}.memory:nth-child(3){transform:rotate(-1deg)}.memory:hover{transform:translateY(-7px) rotate(0)}.photo{height:250px;background:linear-gradient(135deg,#d7c3ae,#eee2d4);display:grid;place-items:center;color:#927e6c;font:13px 'DM Mono',monospace;overflow:hidden}.memory h3{font:26px Caveat;margin-top:15px}.memory p{font:15px/1.6 Inter;color:var(--muted);margin-top:4px}
+.reasons{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.reason{padding:24px;background:#fffaf2;border-left:3px solid var(--rose2);font:23px/1.4 Caveat}.reason b{display:block;font:11px 'DM Mono';color:var(--rose);margin-bottom:7px;letter-spacing:1px}
+.distance{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:center}.distance-copy{font:22px/1.7 Caveat}.route{background:var(--dark);color:#ddd1c7;padding:30px;font:13px/2 'DM Mono';box-shadow:12px 12px 0 #b98287}.route .pink{color:#df9ba2}.route .green{color:#a7c9a2}.route .dim{color:#796e67}
+.terminal{background:#101010;color:#d9d9d9;border-radius:8px;overflow:hidden;box-shadow:0 25px 70px #0004;max-width:820px;margin:auto}.bar{height:35px;background:#242424;display:flex;align-items:center;padding:0 13px;gap:7px}.dot{width:10px;height:10px;border-radius:50%;background:#777}.terminal-body{padding:30px;font:14px/2 'DM Mono',monospace;min-height:340px}.prompt{color:#9bcf9b}.cmd{color:#ddd}.output{color:#999}.heart{color:#e29aa1}.cursor{display:inline-block;width:8px;height:16px;background:#ddd;vertical-align:-3px;animation:blink 1s infinite}@keyframes blink{50%{opacity:0}}
+.footer{text-align:center;padding:80px 24px 110px}.footer .big{font:55px Caveat;color:var(--rose)}.footer p{font:11px 'DM Mono';color:#887a70;margin-top:10px}
+.reveal{opacity:0;transform:translateY(25px);transition:.8s ease}.reveal.visible{opacity:1;transform:none}
+@media(max-width:700px){section{padding:75px 18px}.hero-card{padding:50px 28px}.tiny-code{display:none}.memories,.reasons,.distance{grid-template-columns:1fr}.memory:nth-child(2){margin-top:0}.photo{height:210px}.letter p{font-size:20px}.terminal-body{font-size:11px;padding:20px;overflow:auto}}
+</style>
+</head>
+<body>
+<header class="hero" id="home">
+  <div class="hero-card">
+    <div class="tape"></div>
+    <div class="eyebrow">a little website • made just for you</div>
+    <h1>For you,<br>my love ♡</h1>
+    <p>I could have just written you a message. But you're worth something a little more than that. So I made you a tiny corner of the internet instead.</p>
+    <a class="open" href="#letter">$ ./open-my-heart</a>
+  </div>
+  <div class="tiny-code">const <span>us</span> = {<br>&nbsp;&nbsp;distance: 'temporary',<br>&nbsp;&nbsp;love: 'permanent',<br>&nbsp;&nbsp;status: '<span>still choosing you</span>'<br>};</div>
+</header>
+
+<section id="letter" class="reveal">
+  <div class="section-label">01 — from my heart</div>
+  <h2 class="section-title">A letter I couldn't fit in a text.</h2>
+  <div class="letter">
+    <p>My love,</p>
+    <p>There are probably a thousand ways I could tell you that I love you, and somehow none of them ever feel like enough. So instead of trying to find the perfect words, I wanted to make you something you could come back to whenever you miss me.</p>
+    <p>Being far away from you isn't always easy. There are moments when I wish I could simply turn up at your door, steal a hug, and sit next to you without a screen between us. But even with all those kilometres between us, you've become such a beautiful part of my everyday life.</p>
+    <p>I love the little things. Your messages. Your jokes. The way you annoy me just because you can. The moments where we're doing absolutely nothing and somehow I still feel lucky that it's you on the other side of the phone.</p>
+    <p>And if there's one thing I want you to know, it's this: distance doesn't make me less certain about you. If anything, it makes me more certain that you're someone I want beside me when the distance is finally gone.</p>
+    <p>Until then, I'll keep choosing you — one day, one call, one stupid joke, one “goodnight” at a time.</p>
+    <div class="signature">Always yours, ♡</div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="section-label">02 — little pieces of us</div>
+  <h2 class="section-title">Our memories.</h2>
+  <div class="memories">
+    <article class="memory"><div class="photo">YOUR PHOTO HERE</div><h3>The beginning</h3><p>Replace this with the memory of how everything started.</p></article>
+    <article class="memory"><div class="photo">YOUR PHOTO HERE</div><h3>That one day</h3><p>Add one of your favourite memories together here.</p></article>
+    <article class="memory"><div class="photo">YOUR PHOTO HERE</div><h3>Us, somehow</h3><p>A little story, inside joke, or moment only the two of you understand.</p></article>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="section-label">03 — things I love</div>
+  <h2 class="section-title">And I could keep going.</h2>
+  <div class="reasons">
+    <div class="reason"><b>01 / YOUR HEART</b>The way you care about people, even when nobody is asking you to.</div>
+    <div class="reason"><b>02 / YOUR LAUGH</b>Especially when I know I've managed to make you laugh.</div>
+    <div class="reason"><b>03 / YOUR ANNOYING SIDE</b>Unfortunately, yes. Even that. I love that too.</div>
+    <div class="reason"><b>04 / THE LITTLE THINGS</b>All the tiny details that make you uniquely you.</div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="section-label">04 — temporary problem</div>
+  <h2 class="section-title">Distance.</h2>
+  <div class="distance">
+    <div class="distance-copy"><p>Right now, there's a screen between us.</p><p>One day, there won't be.</p><p>Until then, we don't need to pretend the distance isn't hard. We just need to remember that it's a chapter — not the whole story.</p></div>
+    <div class="route"><div><span class="dim">$ ping</span> <span class="pink">my-love</span></div><div>64 bytes from <span class="pink">you</span>...</div><div>reply: <span class="green">connection alive</span></div><br><div><span class="dim">$ status --relationship</span></div><div>distance: <span class="pink">temporary</span></div><div>love: <span class="green">∞</span></div><div>future: <span class="green">looking good</span></div></div>
+  </div>
+</section>
+
+<section class="reveal">
+  <div class="section-label">05 — system status</div>
+  <h2 class="section-title">One last thing.</h2>
+  <div class="terminal">
+    <div class="bar"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+    <div class="terminal-body">
+      <div><span class="prompt">ethan@heart:~$</span> <span class="cmd">relationship.status</span></div>
+      <div class="output">STATUS: <span class="heart">ACTIVE ♡</span></div><br>
+      <div><span class="prompt">ethan@heart:~$</span> <span class="cmd">distance.check</span></div>
+      <div class="output">RESULT: <span class="heart">TEMPORARY</span></div><br>
+      <div><span class="prompt">ethan@heart:~$</span> <span class="cmd">future.load</span></div>
+      <div class="output">████████████████████ 100%</div><br>
+      <div><span class="prompt">ethan@heart:~$</span> <span class="cmd">final.message</span></div>
+      <div class="output">Still choosing you.<br>Distance is temporary.<br>You are my favourite person.<br><span class="heart">I love you. ♡</span></div><br>
+      <div><span class="prompt">ethan@heart:~$</span> <span class="cursor"></span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer reveal"><div class="big">Made with love, not AI. ♡</div><p>© 2026 • just us</p></footer>
+
+<script>
+const observer=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
