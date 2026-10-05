@@ -40,6 +40,153 @@ section{max-width:1080px;margin:auto;padding:100px 24px}.hero{min-height:100svh;
   color:#aa9b8e;
   letter-spacing:.5px;
 }
+/* =========================
+   STITCH EASTER EGG
+   ========================= */
+
+.stitch-easter-egg {
+    position: fixed;
+    bottom: 20px;
+    width: 150px;
+    height: auto;
+
+    z-index: 9999;
+    pointer-events: none;
+
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Stitch entering from the left */
+.stitch-easter-egg.run-left {
+    animation: stitchRunLeft 8s linear forwards;
+}
+
+/* Stitch entering from the right */
+.stitch-easter-egg.run-right {
+    animation: stitchRunRight 8s linear forwards;
+}
+
+/* Little wiggle/bounce in the middle */
+@keyframes stitchWiggle {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    25% {
+        transform: translateY(-10px) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(0) rotate(5deg);
+    }
+
+    75% {
+        transform: translateY(-7px) rotate(-3deg);
+    }
+}
+
+/* Left → Right */
+@keyframes stitchRunLeft {
+    0% {
+        left: -180px;
+        opacity: 0;
+        visibility: visible;
+        transform: translateY(0);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    38% {
+        left: 38%;
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    43% {
+        left: 40%;
+        transform: translateY(-10px) rotate(-5deg);
+    }
+
+    48% {
+        left: 42%;
+        transform: translateY(0) rotate(5deg);
+    }
+
+    53% {
+        left: 44%;
+        transform: translateY(-7px) rotate(-3deg);
+    }
+
+    58% {
+        left: 46%;
+        transform: translateY(0) rotate(0deg);
+    }
+
+    90% {
+        left: calc(100vw - 20px);
+        opacity: 1;
+    }
+
+    100% {
+        left: calc(100vw + 180px);
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
+/* Right → Left */
+@keyframes stitchRunRight {
+    0% {
+        right: -180px;
+        opacity: 0;
+        visibility: visible;
+        transform: scaleX(-1) translateY(0);
+    }
+
+    8% {
+        opacity: 1;
+    }
+
+    38% {
+        right: 38%;
+        opacity: 1;
+        transform: scaleX(-1) translateY(0);
+    }
+
+    43% {
+        right: 40%;
+        transform: scaleX(-1) translateY(-10px) rotate(-5deg);
+    }
+
+    48% {
+        right: 42%;
+        transform: scaleX(-1) translateY(0) rotate(5deg);
+    }
+
+    53% {
+        right: 44%;
+        transform: scaleX(-1) translateY(-7px) rotate(-3deg);
+    }
+
+    58% {
+        right: 46%;
+        transform: scaleX(-1) translateY(0) rotate(0deg);
+    }
+
+    90% {
+        right: calc(100vw - 20px);
+        opacity: 1;
+    }
+
+    100% {
+        right: calc(100vw + 180px);
+        opacity: 0;
+        visibility: hidden;
+    }
+}
 .paper{background:var(--paper2);box-shadow:0 15px 50px #594c4020}.section-label{font:500 12px 'DM Mono',monospace;color:var(--rose);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}.section-title{font:600 clamp(43px,6vw,72px)/.9 Caveat,cursive;margin-bottom:30px}.letter{max-width:790px;margin:auto;padding:clamp(32px,6vw,70px);position:relative;background:#fffdf7;box-shadow:0 12px 30px #594c4015}.letter:after{content:"♡";position:absolute;right:32px;top:24px;color:var(--rose2);font:42px Caveat}.letter p{font:22px/1.8 Caveat,cursive;margin-bottom:22px}.signature{font:30px Caveat;color:var(--rose);margin-top:35px}
 .memories{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.memory{background:#fffaf2;padding:14px 14px 25px;box-shadow:0 12px 30px #594c4018;transition:.3s}.memory:nth-child(2){transform:rotate(1.5deg);margin-top:22px}.memory:nth-child(3){transform:rotate(-1deg)}.memory:hover{transform:translateY(-7px) rotate(0)}.photo{height:250px;background:linear-gradient(135deg,#d7c3ae,#eee2d4);display:grid;place-items:center;color:#927e6c;font:13px 'DM Mono',monospace;overflow:hidden}.memory h3{font:26px Caveat;margin-top:15px}.memory p{font:15px/1.6 Inter;color:var(--muted);margin-top:4px}
 .reasons{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.reason{padding:24px;background:#fffaf2;border-left:3px solid var(--rose2);font:23px/1.4 Caveat}.reason b{display:block;font:11px 'DM Mono';color:var(--rose);margin-bottom:7px;letter-spacing:1px}
@@ -757,6 +904,48 @@ The fact that you're studying to become a teacher genuinely makes sense to me be
 </footer>
 
 <script>
+
+/* =========================
+   STITCH EASTER EGG
+   ========================= */
+
+const stitch = document.getElementById("stitchEasterEgg");
+
+function makeStitchRun() {
+
+    // Remove previous animation classes
+    stitch.classList.remove("run-left", "run-right");
+
+    // Force the browser to reset the animation
+    void stitch.offsetWidth;
+
+    // Randomly choose a direction
+    const fromLeft = Math.random() < 0.5;
+
+    if (fromLeft) {
+        stitch.classList.add("run-left");
+    } else {
+        stitch.classList.add("run-right");
+    }
+
+    // Next appearance: random 30–60 seconds
+    const nextRun =
+        Math.random() * 30000 + 30000;
+
+    setTimeout(makeStitchRun, nextRun);
+}
+
+
+/*
+ * First appearance:
+ * Randomly between 8 and 13 seconds.
+ */
+
+const firstAppearance =
+    Math.random() * 5000 + 8000;
+
+setTimeout(makeStitchRun, firstAppearance);
+
 const observer=new IntersectionObserver(
   entries=>entries.forEach(e=>{
     if(e.isIntersecting)e.target.classList.add('visible')
@@ -798,5 +987,11 @@ function updateRelationshipTime() {
 updateRelationshipTime();
 setInterval(updateRelationshipTime, 1000);
 </script>
+<img
+    src="images/stitch1.png"
+    alt=""
+    id="stitchEasterEgg"
+    class="stitch-easter-egg"
+>
 </body>
 </html>
