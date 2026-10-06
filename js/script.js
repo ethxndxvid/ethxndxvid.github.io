@@ -78,6 +78,65 @@ const Stitch = {
 
     this.isBusy = false;
   },
+  
+  async wander() {
+    if (this.isBusy) return;
+
+    this.isBusy = true;
+
+    const fromLeft = Math.random() < 0.5;
+
+    this.face(fromLeft ? "right" : "left");
+    this.show();
+
+    const startX = fromLeft
+        ? -180
+        : window.innerWidth + 180;
+
+    const middleX = window.innerWidth * (Math.random() * 0.4 + 0.3);
+
+    stitch.style.transition = "none";
+    stitch.style.transform = `translateX(${startX}px)`;
+
+    void stitch.offsetWidth;
+
+    stitch.style.transition = "transform 3s ease-in-out";
+    stitch.style.transform = `translateX(${middleX}px)`;
+
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Pause and look around
+    await new Promise(resolve => setTimeout(resolve, 1200));
+
+    // Turn around
+    this.face(fromLeft ? "left" : "right");
+
+    const secondX = fromLeft
+        ? middleX - 160
+        : middleX + 160;
+
+    stitch.style.transition = "transform 1.8s ease-in-out";
+    stitch.style.transform = `translateX(${secondX}px)`;
+
+    await new Promise(resolve => setTimeout(resolve, 1800));
+
+    // Turn back toward the exit
+    this.face(fromLeft ? "right" : "left");
+
+    const exitX = fromLeft
+        ? window.innerWidth + 180
+        : -180;
+
+    stitch.style.transition = "transform 3.5s linear";
+    stitch.style.transform = `translateX(${exitX}px)`;
+
+    await new Promise(resolve => setTimeout(resolve, 3500));
+
+    this.hide();
+    stitch.style.transition = "none";
+
+    this.isBusy = false;
+}
 };
 
 /* =========================
