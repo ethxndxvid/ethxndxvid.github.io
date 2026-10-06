@@ -143,19 +143,21 @@ async perch() {
 
     this.isBusy = true;
 
-    const candidates = [...document.querySelectorAll(".reveal")].filter(el => {
+    // Find actual visible letter cards
+    const candidates = [...document.querySelectorAll(".letter")].filter(el => {
         const rect = el.getBoundingClientRect();
 
         return (
+            rect.top > 100 &&
             rect.top < window.innerHeight - 120 &&
-            rect.bottom > 120 &&
-            rect.width > 150
+            rect.bottom > 150
         );
     });
 
+    // If there are no usable cards on screen, fall back to wandering
     if (candidates.length === 0) {
         this.isBusy = false;
-        return this.runAcross();
+        return this.wander();
     }
 
     const target =
@@ -163,54 +165,73 @@ async perch() {
 
     const rect = target.getBoundingClientRect();
 
+    // Pick somewhere along the top edge of the card
     const targetX = Math.max(
-        20,
+        40,
         Math.min(
-            window.innerWidth - 170,
+            window.innerWidth - 190,
             rect.left + rect.width * 0.65
         )
     );
 
-    const targetY = Math.max(
-        80,
-        window.innerHeight - rect.top + 20
-    );
+    // Where Stitch should stand before jumping
+    const groundX = targetX;
 
-    this.face("left");
+    // Align Stitch's bottom with the top edge of the card
+    const perchBottom =
+        window.innerHeight - rect.top - 5;
+
+    const enterFromLeft = targetX < window.innerWidth / 2;
+
+    const startX = enterFromLeft
+        ? -180
+        : window.innerWidth + 180;
+
+    this.face(enterFromLeft ? "right" : "left");
     this.show();
 
     stitch.style.transition = "none";
-    stitch.style.left = "0";
     stitch.style.bottom = "20px";
-    stitch.style.transform = "translateX(-180px)";
+    stitch.style.transform = `translateX(${startX}px)`;
 
     void stitch.offsetWidth;
 
-    stitch.style.transition =
-        "transform 2.5s ease-out, bottom 2.5s ease-out";
-
-    stitch.style.transform = `translateX(${targetX}px)`;
-    stitch.style.bottom = `${targetY}px`;
+    // 1. Run along the bottom toward the card
+    stitch.style.transition = "transform 2.5s ease-out";
+    stitch.style.transform = `translateX(${groundX}px)`;
 
     await new Promise(resolve => setTimeout(resolve, 2500));
 
-    // Sit on the edge for a moment
+    // 2. Jump upward onto the top edge
+    stitch.style.transition =
+        "bottom 700ms cubic-bezier(.2,.8,.3,1)";
+
+    stitch.style.bottom = `${perchBottom}px`;
+
+    await new Promise(resolve => setTimeout(resolve, 700));
+
+    // 3. Sit there
     await new Promise(resolve => setTimeout(resolve, 3000));
 
-    // Leave toward whichever side is closer
-    const leaveLeft = targetX < window.innerWidth / 2;
+    // 4. Jump back down
+    stitch.style.transition =
+        "bottom 600ms ease-in";
 
-    this.face(leaveLeft ? "left" : "right");
+    stitch.style.bottom = "20px";
 
-    const exitX = leaveLeft
+    await new Promise(resolve => setTimeout(resolve, 600));
+
+    // 5. Leave
+    const exitLeft = groundX < window.innerWidth / 2;
+
+    this.face(exitLeft ? "left" : "right");
+
+    const exitX = exitLeft
         ? -200
         : window.innerWidth + 200;
 
-    stitch.style.transition =
-        "transform 2.5s ease-in, bottom 2.5s ease-in";
-
+    stitch.style.transition = "transform 2.5s ease-in";
     stitch.style.transform = `translateX(${exitX}px)`;
-    stitch.style.bottom = "20px";
 
     await new Promise(resolve => setTimeout(resolve, 2500));
 
@@ -220,7 +241,7 @@ async perch() {
     stitch.style.bottom = "20px";
 
     this.isBusy = false;
-},
+}
 };
 
 /* =========================
