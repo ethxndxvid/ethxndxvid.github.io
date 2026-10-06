@@ -903,6 +903,13 @@ The fact that you're studying to become a teacher genuinely makes sense to me be
 
 </footer>
 
+<img
+    src="images/stitch1.png"
+    alt=""
+    id="stitchEasterEgg"
+    class="stitch-easter-egg"
+>
+
 <script>
 
 /* =========================
@@ -913,28 +920,29 @@ const stitch = document.getElementById("stitchEasterEgg");
 
 function makeStitchRun() {
 
-    // Remove previous animation classes
+    // Reset previous animation
     stitch.classList.remove("run-left", "run-right");
 
-    // Force the browser to reset the animation
+    // Force the browser to restart the animation
     void stitch.offsetWidth;
 
-    // Randomly choose a direction
-    const fromLeft = Math.random() < 0.5;
-
-    if (fromLeft) {
+    // Randomly choose which side Stitch comes from
+    if (Math.random() < 0.5) {
         stitch.classList.add("run-left");
     } else {
         stitch.classList.add("run-right");
     }
 
     // Next appearance: random 30–60 seconds
-    const nextRun =
-        Math.random() * 30000 + 30000;
+    const nextRun = Math.random() * 30000 + 30000;
 
     setTimeout(makeStitchRun, nextRun);
 }
 
+// First appearance: random 8–13 seconds
+const firstAppearance = Math.random() * 5000 + 8000;
+
+setTimeout(makeStitchRun, firstAppearance);
 
 /*
  * First appearance:
@@ -987,14 +995,5 @@ function updateRelationshipTime() {
 updateRelationshipTime();
 setInterval(updateRelationshipTime, 1000);
 </script>
-
-<img src="images/stitch1.png" style="width:200px;">
-
-<img
-    src="images/stitch1.png"
-    alt=""
-    id="stitchEasterEgg"
-    class="stitch-easter-egg"
->
 </body>
 </html>
