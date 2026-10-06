@@ -255,11 +255,15 @@ async perch() {
 function chooseStitchBehaviour() {
     const roll = Math.random();
 
-    if (roll < 0.65) {
+    if (roll < 0.50) {
         return Stitch.runAcross();
     }
 
-    return Stitch.wander();
+    if (roll < 0.80) {
+        return Stitch.wander();
+    }
+
+    return Stitch.perch();
 }
 
 function scheduleNextStitchAppearance() {
