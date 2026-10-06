@@ -944,24 +944,17 @@ const firstAppearance = Math.random() * 5000 + 8000;
 
 setTimeout(makeStitchRun, firstAppearance);
 
-/*
- * First appearance:
- * Randomly between 8 and 13 seconds.
- */
-
-const firstAppearance =
-    Math.random() * 5000 + 8000;
-
-setTimeout(makeStitchRun, firstAppearance);
-
-const observer=new IntersectionObserver(
-  entries=>entries.forEach(e=>{
-    if(e.isIntersecting)e.target.classList.add('visible')
+const observer = new IntersectionObserver(
+  entries => entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
   }),
-  {threshold:.12}
+  { threshold: .12 }
 );
 
-document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 
 const startTime = new Date('2026-08-29T15:45:00+02:00');
