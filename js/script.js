@@ -220,7 +220,7 @@ async perch() {
     stitch.style.bottom = "20px";
 
     this.isBusy = false;
-}
+},
 };
 
 /* =========================
