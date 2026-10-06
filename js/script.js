@@ -241,6 +241,77 @@ async perch() {
     stitch.style.bottom = "20px";
 
     this.isBusy = false;
+},
+
+async peek() {
+    if (this.isBusy) return;
+
+    this.isBusy = true;
+
+    const candidates = [...document.querySelectorAll(".letter")].filter(el => {
+        const rect = el.getBoundingClientRect();
+
+        return (
+            rect.top < window.innerHeight - 100 &&
+            rect.bottom > 100 &&
+            rect.width > 180
+        );
+    });
+
+    if (candidates.length === 0) {
+        this.isBusy = false;
+        return this.wander();
+    }
+
+    const target =
+        candidates[Math.floor(Math.random() * candidates.length)];
+
+    const rect = target.getBoundingClientRect();
+
+    const peekFromLeft = Math.random() < 0.5;
+
+    const targetX = peekFromLeft
+        ? rect.left - 90
+        : rect.right - 60;
+
+    const targetY =
+        window.innerHeight - rect.top - 80;
+
+    this.face(peekFromLeft ? "right" : "left");
+    this.show();
+
+    stitch.style.transition = "none";
+    stitch.style.bottom = `${targetY}px`;
+
+    const hiddenX = peekFromLeft
+        ? targetX - 70
+        : targetX + 70;
+
+    stitch.style.transform = `translateX(${hiddenX}px)`;
+
+    void stitch.offsetWidth;
+
+    // Peek out
+    stitch.style.transition = "transform 700ms ease-out";
+    stitch.style.transform = `translateX(${targetX}px)`;
+
+    await new Promise(resolve => setTimeout(resolve, 700));
+
+    // Stay there looking around
+    await new Promise(resolve => setTimeout(resolve, 1800));
+
+    // Hide again
+    stitch.style.transition = "transform 700ms ease-in";
+    stitch.style.transform = `translateX(${hiddenX}px)`;
+
+    await new Promise(resolve => setTimeout(resolve, 700));
+
+    this.hide();
+
+    stitch.style.transition = "none";
+    stitch.style.bottom = "20px";
+
+    this.isBusy = false;
 }
 };
 
