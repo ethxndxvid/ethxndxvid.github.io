@@ -78,7 +78,7 @@ const Stitch = {
 
     this.isBusy = false;
   },
-  
+
   async wander() {
     if (this.isBusy) return;
 
@@ -143,20 +143,34 @@ const Stitch = {
    STITCH SCHEDULING
    ========================= */
 
-function scheduleNextStitchAppearance() {
-  const delay = Math.random() * 30000 + 30000;
+/* =========================
+   STITCH SCHEDULING
+   ========================= */
 
-  setTimeout(async () => {
-    await Stitch.runAcross();
-    scheduleNextStitchAppearance();
-  }, delay);
+function chooseStitchBehaviour() {
+    const roll = Math.random();
+
+    if (roll < 0.65) {
+        return Stitch.runAcross();
+    }
+
+    return Stitch.wander();
+}
+
+function scheduleNextStitchAppearance() {
+    const delay = Math.random() * 30000 + 30000;
+
+    setTimeout(async () => {
+        await chooseStitchBehaviour();
+        scheduleNextStitchAppearance();
+    }, delay);
 }
 
 const firstStitchAppearance = Math.random() * 5000 + 8000;
 
 setTimeout(async () => {
-  await Stitch.runAcross();
-  scheduleNextStitchAppearance();
+    await chooseStitchBehaviour();
+    scheduleNextStitchAppearance();
 }, firstStitchAppearance);
 
 
