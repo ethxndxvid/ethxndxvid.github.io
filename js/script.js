@@ -136,6 +136,90 @@ const Stitch = {
     stitch.style.transition = "none";
 
     this.isBusy = false;
+},
+
+async perch() {
+    if (this.isBusy) return;
+
+    this.isBusy = true;
+
+    const candidates = [...document.querySelectorAll(".reveal")].filter(el => {
+        const rect = el.getBoundingClientRect();
+
+        return (
+            rect.top < window.innerHeight - 120 &&
+            rect.bottom > 120 &&
+            rect.width > 150
+        );
+    });
+
+    if (candidates.length === 0) {
+        this.isBusy = false;
+        return this.runAcross();
+    }
+
+    const target =
+        candidates[Math.floor(Math.random() * candidates.length)];
+
+    const rect = target.getBoundingClientRect();
+
+    const targetX = Math.max(
+        20,
+        Math.min(
+            window.innerWidth - 170,
+            rect.left + rect.width * 0.65
+        )
+    );
+
+    const targetY = Math.max(
+        80,
+        window.innerHeight - rect.top + 20
+    );
+
+    this.face("left");
+    this.show();
+
+    stitch.style.transition = "none";
+    stitch.style.left = "0";
+    stitch.style.bottom = "20px";
+    stitch.style.transform = "translateX(-180px)";
+
+    void stitch.offsetWidth;
+
+    stitch.style.transition =
+        "transform 2.5s ease-out, bottom 2.5s ease-out";
+
+    stitch.style.transform = `translateX(${targetX}px)`;
+    stitch.style.bottom = `${targetY}px`;
+
+    await new Promise(resolve => setTimeout(resolve, 2500));
+
+    // Sit on the edge for a moment
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Leave toward whichever side is closer
+    const leaveLeft = targetX < window.innerWidth / 2;
+
+    this.face(leaveLeft ? "left" : "right");
+
+    const exitX = leaveLeft
+        ? -200
+        : window.innerWidth + 200;
+
+    stitch.style.transition =
+        "transform 2.5s ease-in, bottom 2.5s ease-in";
+
+    stitch.style.transform = `translateX(${exitX}px)`;
+    stitch.style.bottom = "20px";
+
+    await new Promise(resolve => setTimeout(resolve, 2500));
+
+    this.hide();
+
+    stitch.style.transition = "none";
+    stitch.style.bottom = "20px";
+
+    this.isBusy = false;
 }
 };
 
