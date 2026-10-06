@@ -413,6 +413,106 @@ async readLetter() {
     stitch.style.bottom = "20px";
 
     this.isBusy = false;
+},
+
+async inspectTerminal() {
+    if (this.isBusy) return;
+
+    this.isBusy = true;
+
+    const target = document.querySelector(".terminal");
+
+    if (!target) {
+        this.isBusy = false;
+        return this.wander();
+    }
+
+    const rect = target.getBoundingClientRect();
+
+    const isVisible =
+        rect.top < window.innerHeight - 100 &&
+        rect.bottom > 100;
+
+    if (!isVisible) {
+        this.isBusy = false;
+        return this.wander();
+    }
+
+    const targetX = Math.max(
+        40,
+        Math.min(
+            window.innerWidth - 190,
+            rect.left + rect.width * 0.70
+        )
+    );
+
+    const perchBottom =
+        window.innerHeight - rect.top - 5;
+
+    const enterFromLeft =
+        targetX < window.innerWidth / 2;
+
+    const startX = enterFromLeft
+        ? -180
+        : window.innerWidth + 180;
+
+    this.face(enterFromLeft ? "right" : "left");
+    this.show();
+
+    stitch.style.transition = "none";
+    stitch.style.bottom = "20px";
+    stitch.style.transform = `translateX(${startX}px)`;
+
+    void stitch.offsetWidth;
+
+    // Walk toward the terminal
+    stitch.style.transition = "transform 2.5s ease-out";
+    stitch.style.transform = `translateX(${targetX}px)`;
+
+    await new Promise(resolve => setTimeout(resolve, 2500));
+
+    // Jump onto the terminal
+    stitch.style.transition =
+        "bottom 700ms cubic-bezier(.2,.8,.3,1)";
+
+    stitch.style.bottom = `${perchBottom}px`;
+
+    await new Promise(resolve => setTimeout(resolve, 700));
+
+    // Face inward like he's reading it
+    this.face("left");
+
+    await new Promise(resolve => setTimeout(resolve, 500));
+
+    // Inspect terminal
+    await new Promise(resolve => setTimeout(resolve, 4000));
+
+    // Jump down
+    stitch.style.transition = "bottom 600ms ease-in";
+    stitch.style.bottom = "20px";
+
+    await new Promise(resolve => setTimeout(resolve, 600));
+
+    // Leave
+    const exitLeft = targetX < window.innerWidth / 2;
+
+    this.face(exitLeft ? "left" : "right");
+
+    const exitX = exitLeft
+        ? -200
+        : window.innerWidth + 200;
+
+    stitch.style.transition = "transform 2.5s ease-in";
+    stitch.style.transform = `translateX(${exitX}px)`;
+
+    await new Promise(resolve => setTimeout(resolve, 2500));
+
+    this.hide();
+
+    stitch.style.transition = "none";
+    stitch.style.bottom = "20px";
+
+    this.isBusy = false;
 }
 };
 
