@@ -2,46 +2,74 @@
    STITCH EASTER EGG
    ========================= */
 
-const stitch = document.getElementById("stitchEasterEgg");
+/* =========================
+   STITCH CHARACTER
+   ========================= */
 
-function makeStitchRun() {
+const stitch = document.getElementById("stitchCharacter");
 
-    // Reset previous animation
-    stitch.classList.remove("run-left", "run-right");
+const Stitch = {
+    isBusy: false,
+    direction: "right",
 
-    // Force the browser to restart the animation
-    void stitch.offsetWidth;
+    show() {
+        stitch.style.visibility = "visible";
+        stitch.style.opacity = "1";
+    },
 
-    // Randomly choose which side Stitch comes from
-    if (Math.random() < 0.5) {
-        stitch.classList.add("run-left");
-    } else {
-        stitch.classList.add("run-right");
+    hide() {
+        stitch.style.opacity = "0";
+        stitch.style.visibility = "hidden";
+    },
+
+    face(direction) {
+        this.direction = direction;
+
+        const sprite = stitch.querySelector(".stitch-sprite");
+
+        if (direction === "left") {
+            sprite.style.transform = "scaleX(-1)";
+        } else {
+            sprite.style.transform = "scaleX(1)";
+        }
+    },
+
+    async runAcross() {
+        if (this.isBusy) return;
+
+        this.isBusy = true;
+
+        const fromLeft = Math.random() < 0.5;
+
+        this.face(fromLeft ? "right" : "left");
+        this.show();
+
+        const startX = fromLeft
+            ? -180
+            : window.innerWidth + 180;
+
+        const endX = fromLeft
+            ? window.innerWidth + 180
+            : -180;
+
+        stitch.style.transition = "none";
+        stitch.style.transform = `translateX(${startX}px)`;
+
+        // Force the browser to register the starting position
+        void stitch.offsetWidth;
+
+        stitch.style.transition = "transform 8s linear";
+        stitch.style.transform = `translateX(${endX}px)`;
+
+        await new Promise(resolve => setTimeout(resolve, 8000));
+
+        this.hide();
+
+        stitch.style.transition = "none";
+
+        this.isBusy = false;
     }
-
-    // Next appearance: random 30–60 seconds
-    const nextRun = Math.random() * 30000 + 30000;
-
-    setTimeout(makeStitchRun, nextRun);
-}
-
-// First appearance: random 8–13 seconds
-const firstAppearance = Math.random() * 5000 + 8000;
-
-setTimeout(makeStitchRun, firstAppearance);
-
-const observer = new IntersectionObserver(
-  entries => entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
-    }
-  }),
-  { threshold: .12 }
-);
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
+};
 
 const startTime = new Date('2026-08-29T15:45:00+02:00');
 
