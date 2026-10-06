@@ -36,12 +36,14 @@ section{max-width:1080px;margin:auto;padding:100px 24px}.hero{min-height:100svh;
   letter-spacing:.5px;
 }
 /* =========================
-   STITCH EASTER EGG
+   STITCH CHARACTER
    ========================= */
 
-.stitch-easter-egg {
+.stitch-character {
     position: fixed;
+    left: 0;
     bottom: 20px;
+
     width: 150px;
     height: auto;
 
@@ -50,137 +52,28 @@ section{max-width:1080px;margin:auto;padding:100px 24px}.hero{min-height:100svh;
 
     opacity: 0;
     visibility: hidden;
+
+    transform: translateX(-200px);
 }
 
-/* Stitch entering from the left */
-.stitch-easter-egg.run-left {
-    animation: stitchRunLeft 8s linear forwards;
+.stitch-sprite {
+    display: block;
+    width: 100%;
+    height: auto;
 }
 
-/* Stitch entering from the right */
-.stitch-easter-egg.run-right {
-    animation: stitchRunRight 8s linear forwards;
-}
+.stitch-thought {
+    position: absolute;
 
-/* Little wiggle/bounce in the middle */
-@keyframes stitchWiggle {
-    0%, 100% {
-        transform: translateY(0) rotate(0deg);
-    }
+    top: -20px;
+    left: 50%;
 
-    25% {
-        transform: translateY(-10px) rotate(-5deg);
-    }
+    transform: translateX(-50%);
 
-    50% {
-        transform: translateY(0) rotate(5deg);
-    }
+    font-family: "DM Mono", monospace;
+    font-size: 14px;
 
-    75% {
-        transform: translateY(-7px) rotate(-3deg);
-    }
-}
-
-/* Left → Right */
-@keyframes stitchRunLeft {
-    0% {
-        left: -180px;
-        opacity: 0;
-        visibility: visible;
-        transform: translateY(0);
-    }
-
-    8% {
-        opacity: 1;
-    }
-
-    38% {
-        left: 38%;
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    43% {
-        left: 40%;
-        transform: translateY(-10px) rotate(-5deg);
-    }
-
-    48% {
-        left: 42%;
-        transform: translateY(0) rotate(5deg);
-    }
-
-    53% {
-        left: 44%;
-        transform: translateY(-7px) rotate(-3deg);
-    }
-
-    58% {
-        left: 46%;
-        transform: translateY(0) rotate(0deg);
-    }
-
-    90% {
-        left: calc(100vw - 20px);
-        opacity: 1;
-    }
-
-    100% {
-        left: calc(100vw + 180px);
-        opacity: 0;
-        visibility: hidden;
-    }
-}
-
-/* Right → Left */
-@keyframes stitchRunRight {
-    0% {
-        right: -180px;
-        opacity: 0;
-        visibility: visible;
-        transform: scaleX(-1) translateY(0);
-    }
-
-    8% {
-        opacity: 1;
-    }
-
-    38% {
-        right: 38%;
-        opacity: 1;
-        transform: scaleX(-1) translateY(0);
-    }
-
-    43% {
-        right: 40%;
-        transform: scaleX(-1) translateY(-10px) rotate(-5deg);
-    }
-
-    48% {
-        right: 42%;
-        transform: scaleX(-1) translateY(0) rotate(5deg);
-    }
-
-    53% {
-        right: 44%;
-        transform: scaleX(-1) translateY(-7px) rotate(-3deg);
-    }
-
-    58% {
-        right: 46%;
-        transform: scaleX(-1) translateY(0) rotate(0deg);
-    }
-
-    90% {
-        right: calc(100vw - 20px);
-        opacity: 1;
-    }
-
-    100% {
-        right: calc(100vw + 180px);
-        opacity: 0;
-        visibility: hidden;
-    }
+    opacity: 0;
 }
 .paper{background:var(--paper2);box-shadow:0 15px 50px #594c4020}.section-label{font:500 12px 'DM Mono',monospace;color:var(--rose);letter-spacing:2px;text-transform:uppercase;margin-bottom:12px}.section-title{font:600 clamp(43px,6vw,72px)/.9 Caveat,cursive;margin-bottom:30px}.letter{max-width:790px;margin:auto;padding:clamp(32px,6vw,70px);position:relative;background:#fffdf7;box-shadow:0 12px 30px #594c4015}.letter:after{content:"♡";position:absolute;right:32px;top:24px;color:var(--rose2);font:42px Caveat}.letter p{font:22px/1.8 Caveat,cursive;margin-bottom:22px}.signature{font:30px Caveat;color:var(--rose);margin-top:35px}
 .memories{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}.memory{background:#fffaf2;padding:14px 14px 25px;box-shadow:0 12px 30px #594c4018;transition:.3s}.memory:nth-child(2){transform:rotate(1.5deg);margin-top:22px}.memory:nth-child(3){transform:rotate(-1deg)}.memory:hover{transform:translateY(-7px) rotate(0)}.photo{height:250px;background:linear-gradient(135deg,#d7c3ae,#eee2d4);display:grid;place-items:center;color:#927e6c;font:13px 'DM Mono',monospace;overflow:hidden}.memory h3{font:26px Caveat;margin-top:15px}.memory p{font:15px/1.6 Inter;color:var(--muted);margin-top:4px}
