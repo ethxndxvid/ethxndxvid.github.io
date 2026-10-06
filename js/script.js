@@ -1,6 +1,19 @@
 /* =========================
-   STITCH EASTER EGG
+   REVEAL ANIMATIONS
    ========================= */
+
+const observer = new IntersectionObserver(
+  (entries) =>
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    }),
+  { threshold: 0.12 },
+);
+
+document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
 /* =========================
    STITCH CHARACTER
@@ -9,69 +22,89 @@
 const stitch = document.getElementById("stitchCharacter");
 
 const Stitch = {
-    isBusy: false,
-    direction: "right",
+  isBusy: false,
+  direction: "right",
 
-    show() {
-        stitch.style.visibility = "visible";
-        stitch.style.opacity = "1";
-    },
+  show() {
+    stitch.style.visibility = "visible";
+    stitch.style.opacity = "1";
+  },
 
-    hide() {
-        stitch.style.opacity = "0";
-        stitch.style.visibility = "hidden";
-    },
+  hide() {
+    stitch.style.opacity = "0";
+    stitch.style.visibility = "hidden";
+  },
 
-    face(direction) {
-        this.direction = direction;
+  face(direction) {
+    this.direction = direction;
 
-        const sprite = stitch.querySelector(".stitch-sprite");
+    const sprite = stitch.querySelector(".stitch-sprite");
 
-        if (direction === "left") {
-            sprite.style.transform = "scaleX(-1)";
-        } else {
-            sprite.style.transform = "scaleX(1)";
-        }
-    },
-
-    async runAcross() {
-        if (this.isBusy) return;
-
-        this.isBusy = true;
-
-        const fromLeft = Math.random() < 0.5;
-
-        this.face(fromLeft ? "right" : "left");
-        this.show();
-
-        const startX = fromLeft
-            ? -180
-            : window.innerWidth + 180;
-
-        const endX = fromLeft
-            ? window.innerWidth + 180
-            : -180;
-
-        stitch.style.transition = "none";
-        stitch.style.transform = `translateX(${startX}px)`;
-
-        // Force the browser to register the starting position
-        void stitch.offsetWidth;
-
-        stitch.style.transition = "transform 8s linear";
-        stitch.style.transform = `translateX(${endX}px)`;
-
-        await new Promise(resolve => setTimeout(resolve, 8000));
-
-        this.hide();
-
-        stitch.style.transition = "none";
-
-        this.isBusy = false;
+    if (direction === "left") {
+      sprite.style.transform = "scaleX(-1)";
+    } else {
+      sprite.style.transform = "scaleX(1)";
     }
+  },
+
+  async runAcross() {
+    if (this.isBusy) return;
+
+    this.isBusy = true;
+
+    const fromLeft = Math.random() < 0.5;
+
+    this.face(fromLeft ? "right" : "left");
+    this.show();
+
+    const startX = fromLeft ? -180 : window.innerWidth + 180;
+
+    const endX = fromLeft ? window.innerWidth + 180 : -180;
+
+    stitch.style.transition = "none";
+    stitch.style.transform = `translateX(${startX}px)`;
+
+    // Force the browser to register the starting position
+    void stitch.offsetWidth;
+
+    stitch.style.transition = "transform 8s linear";
+    stitch.style.transform = `translateX(${endX}px)`;
+
+    await new Promise((resolve) => setTimeout(resolve, 8000));
+
+    this.hide();
+
+    stitch.style.transition = "none";
+
+    this.isBusy = false;
+  },
 };
 
-const startTime = new Date('2026-08-29T15:45:00+02:00');
+/* =========================
+   STITCH SCHEDULING
+   ========================= */
+
+function scheduleNextStitchAppearance() {
+  const delay = Math.random() * 30000 + 30000;
+
+  setTimeout(async () => {
+    await Stitch.runAcross();
+    scheduleNextStitchAppearance();
+  }, delay);
+}
+
+const firstStitchAppearance = Math.random() * 5000 + 8000;
+
+setTimeout(async () => {
+  await Stitch.runAcross();
+  scheduleNextStitchAppearance();
+}, firstStitchAppearance);
+
+
+/* =========================
+   RELATIONSHIP TIME COUNTER
+   ========================= */
+const startTime = new Date("2026-08-29T15:45:00+02:00");
 
 function updateRelationshipTime() {
   const now = new Date();
@@ -92,7 +125,7 @@ function updateRelationshipTime() {
     `${minutes} minutes, ` +
     `${seconds} seconds`;
 
-  const element = document.getElementById('relationship-time');
+  const element = document.getElementById("relationship-time");
 
   if (element) {
     element.textContent = text;
